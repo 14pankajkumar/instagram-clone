@@ -1,6 +1,8 @@
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Feed from "../components/Feed";
 import Header from "../components/Header";
+import Modal from "../components/Modal";
 
 const Home = () => {
   return (
@@ -17,8 +19,17 @@ const Home = () => {
       <Feed />
 
       {/* Modal */}
+      <Modal />
     </div>
   );
 };
 
 export default Home;
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      session: await getSession(context),
+    },
+  };
+}

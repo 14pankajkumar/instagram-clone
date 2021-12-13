@@ -8,13 +8,20 @@ import {
   MenuIcon,
 } from "@heroicons/react/outline";
 import { HomeIcon } from "@heroicons/react/solid";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { modalState } from "../atoms/modalAtom";
 
 const Header = () => {
+  const { data: session } = useSession();
+  const [open, setOpen] = useRecoilState(modalState)
+  const router = useRouter();
   return (
     <div className="shadow-sm border-b bg-white sticky top-0 z-50">
       <div className="flex justify-between max-w-6xl mx-5 lg:mx-auto">
         {/* Left */}
-        <div className="relative hidden md:inline-grid w-24 cursor-pointer">
+        <div onClick={() => router.push("/")} className="relative hidden md:inline-grid w-24 cursor-pointer">
           <Image
             src="https://links.papareact.com/ocw"
             layout="fill"
@@ -22,7 +29,7 @@ const Header = () => {
           />
         </div>
 
-        <div className="relative w-10 md:hidden flex-shrink-0 cursor-pointer">
+        <div onClick={() => router.push("/")} className="relative w-10 md:hidden flex-shrink-0 cursor-pointer">
           <Image
             src="https://links.papareact.com/jjm"
             layout="fill"
@@ -46,21 +53,30 @@ const Header = () => {
 
         {/* Right */}
         <div className="flex items-center justify-end space-x-4">
-          <HomeIcon className="navBtn" />
+          <HomeIcon onClick={() => router.push("/")} className="navBtn" />
           <MenuIcon className="h-6 md:hidden cursor-pointer" />
-          <div className="relative navBtn">
-          <PaperAirplaneIcon className="navBtn rotate-45" />
-          <div className="absolute -top-1 -right-2 text-xs w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-pulse text-white">3</div>
-          </div>
-          <PlusCircleIcon className="navBtn" />
-          <UserGroupIcon className="navBtn" />
-          <HeartIcon className="navBtn" />
 
-          <img
-            src="https://scontent.fdel25-2.fna.fbcdn.net/v/t1.6435-9/163513282_1764300493774796_226045888999478509_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=8CWYfdGdyg0AX9ASC0I&_nc_ht=scontent.fdel25-2.fna&oh=6d47c8aab4a74f799d8ae34316afdbca&oe=61DDB574"
-            alt="profile pic"
-            className="h-10 rounded-full cursor-pointer"
-          />
+          {session ? (
+            <>
+              <div className="relative navBtn">
+                <PaperAirplaneIcon className="navBtn rotate-45" />
+                <div className="absolute -top-1 -right-2 text-xs w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-pulse text-white">
+                  3
+                </div>
+              </div>
+              <PlusCircleIcon onClick={() => setOpen(true)} className="navBtn" />
+              <UserGroupIcon className="navBtn" />
+              <HeartIcon className="navBtn" />
+
+              <img
+                src={session.user.image}
+                alt="profile pic"
+                className="h-10 w-10 rounded-full cursor-pointer"
+              />
+            </>
+          ) : (
+            <button onClick={signIn}>Sign In</button>
+          )}
         </div>
       </div>
     </div>
