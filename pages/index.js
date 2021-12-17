@@ -1,8 +1,11 @@
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
+import { useState } from "react";
 import Feed from "../components/Feed";
 import Header from "../components/Header";
 import Modal from "../components/Modal";
+import { db } from "../firebase";
 
 const Home = () => {
   return (

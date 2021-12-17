@@ -12,16 +12,20 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { modalState } from "../atoms/modalAtom";
+import Link from "next/link";
 
 const Header = () => {
   const { data: session } = useSession();
-  const [open, setOpen] = useRecoilState(modalState)
+  const [open, setOpen] = useRecoilState(modalState);
   const router = useRouter();
   return (
     <div className="shadow-sm border-b bg-white sticky top-0 z-50">
       <div className="flex justify-between max-w-6xl mx-5 lg:mx-auto">
         {/* Left */}
-        <div onClick={() => router.push("/")} className="relative hidden md:inline-grid w-24 cursor-pointer">
+        <div
+          onClick={() => router.push("/")}
+          className="relative hidden md:inline-grid w-24 cursor-pointer"
+        >
           <Image
             src="https://links.papareact.com/ocw"
             layout="fill"
@@ -29,7 +33,10 @@ const Header = () => {
           />
         </div>
 
-        <div onClick={() => router.push("/")} className="relative w-10 md:hidden flex-shrink-0 cursor-pointer">
+        <div
+          onClick={() => router.push("/")}
+          className="relative w-10 md:hidden flex-shrink-0 cursor-pointer"
+        >
           <Image
             src="https://links.papareact.com/jjm"
             layout="fill"
@@ -64,15 +71,20 @@ const Header = () => {
                   3
                 </div>
               </div>
-              <PlusCircleIcon onClick={() => setOpen(true)} className="navBtn" />
+              <PlusCircleIcon
+                onClick={() => setOpen(true)}
+                className="navBtn"
+              />
               <UserGroupIcon className="navBtn" />
               <HeartIcon className="navBtn" />
 
-              <img
-                src={session.user.image}
-                alt="profile pic"
-                className="h-10 w-10 rounded-full cursor-pointer"
-              />
+              <Link href={`${session.user.username}`}>
+                <img
+                  src={session.user.image}
+                  alt="profile pic"
+                  className="h-10 w-10 rounded-full cursor-pointer"
+                />
+              </Link>
             </>
           ) : (
             <button onClick={signIn}>Sign In</button>
