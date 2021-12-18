@@ -2,6 +2,7 @@ import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Header from "../components/Header";
+import MenuModal from "../components/MenuModal";
 import Modal from "../components/Modal";
 import UserFeed from "../components/UserFeed";
 
@@ -13,7 +14,7 @@ const UserProfile = () => {
   return (
     <div className="bg-gray-50 h-screen overflow-y-scroll scrollbar-hide">
       <Head>
-        <title>{session?.user?.username} Instagram 2.0</title>
+        <title>{userprofile || session?.user?.username} - Instagram 2.0</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -30,6 +31,9 @@ const UserProfile = () => {
 
       {/* Modal */}
       <Modal />
+
+      {/* menu modal */}
+      <MenuModal />
     </div>
   );
 };
