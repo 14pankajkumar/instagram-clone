@@ -22,9 +22,9 @@ const UserFeed = () => {
         </section>
       )}
 
-        {/* user posts */}
       </div>
       <div>
+        {/* user posts */}
         <UserPosts />
       </div>
     </main>

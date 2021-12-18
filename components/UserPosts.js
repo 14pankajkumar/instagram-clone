@@ -1,7 +1,7 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
+
 import { db } from "../firebase";
 import UserPost from "./UserPost";
 
@@ -12,7 +12,10 @@ const UserPosts = () => {
   useEffect(
     () =>
       onSnapshot(
-        query(collection(db, "posts"), where("email", "==", `${session.user.email}`)),
+        query(
+          collection(db, "posts"),
+          where("email", "==", `${session.user.email}`)
+        ),
         (snapshot) => {
           setPosts(snapshot.docs);
         }
