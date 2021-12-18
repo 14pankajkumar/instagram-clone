@@ -16,13 +16,13 @@ const UserProfile = ({ usernameURL }) => {
       <Header />
 
       {/* User Feed */}
-      {usernameURL === session.user.username && session ? (
+      {/* {session && usernameURL === session.user.username ? (
         <UserFeed />
       ) : (
         <div className="flex justify-center mt-56">
           <h1 className="font-bold text-2xl">Please Sign In</h1>
         </div>
-      )}
+      )} */}
 
       {/* Modal */}
       <Modal />
