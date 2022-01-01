@@ -1,10 +1,20 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import Post from "./Post";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+  const [userProfiles, setUserProfiles] = useState([]);
+  const [idData, setIdData] = useState();
+  const { data: session } = useSession();
 
   useEffect(
     () =>
@@ -15,6 +25,28 @@ const Posts = () => {
         }
       ),
     [db]
+  );
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "users"),
+          where("email", "!=", `${session?.user?.email}`)
+        ),
+        (snapshot) => {
+          setUserProfiles(snapshot.docs);
+        }
+      ),
+    [db]
+  );
+
+  useEffect(
+    () =>
+      userProfiles.map((item) => {
+        setIdData(item.id);
+      }),
+    []
   );
 
   return (

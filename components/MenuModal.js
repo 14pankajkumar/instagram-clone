@@ -11,11 +11,13 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/outline";
 import { HomeIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
 
 const MenuModal = () => {
   const { data: session } = useSession();
   const [menuOpen, setMenuOpen] = useRecoilState(menuState);
   const [open, setOpen] = useRecoilState(modalState);
+  const router = useRouter();
 
   return (
     <Transition.Root show={menuOpen} as={Fragment}>
@@ -56,7 +58,10 @@ const MenuModal = () => {
           >
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               <div className="mt-5 sm:mt-6 flex justify-between items-center">
-                <HomeIcon className="menuBtn" />
+                <HomeIcon
+                  onClick={() => router.push("/")}
+                  className="menuBtn"
+                />
                 {session ? (
                   <>
                     <PaperAirplaneIcon className="menuBtn rotate-45" />

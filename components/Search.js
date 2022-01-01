@@ -2,9 +2,8 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
-import FollowBtn from "./FollowBtn";
 
-const Suggestions = () => {
+const Search = ({ searchValue }) => {
   const [suggestions, setSuggestions] = useState([]);
   const { data: session } = useSession();
 
@@ -13,20 +12,19 @@ const Suggestions = () => {
       onSnapshot(
         query(
           collection(db, "users"),
-          where("email", "!=", `${session.user.email}`)
+          where("username", "==", `${searchValue}`)
         ),
         (snapshot) => {
           setSuggestions(snapshot.docs);
         }
       ),
-    [db]
+    [db, searchValue]
   );
 
   return (
-    <div className="mt-4 ml-10">
+    <div className="absolute bg-white rounded-lg mt-20 border drop-shadow-2xl p-7 w-80">
       <div className="flex justify-between text-sm mb-5">
-        <h3 className="text-sm font-bold text-gray-400">Suggestions for you</h3>
-        <button className="text-gray-500 font-semibold">See All</button>
+        <h3 className="text-sm font-bold text-gray-400">Search results</h3>
       </div>
 
       {suggestions.map((profile) => {
@@ -49,7 +47,6 @@ const Suggestions = () => {
                 {/* Work at {profile.company.name || profile.company} */}
               </h3>
             </div>
-            <FollowBtn id={profile.id} />
           </div>
         );
       })}
@@ -57,4 +54,4 @@ const Suggestions = () => {
   );
 };
 
-export default Suggestions;
+export default Search;
