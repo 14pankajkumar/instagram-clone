@@ -13,7 +13,6 @@ import Post from "./Post";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [userProfiles, setUserProfiles] = useState([]);
-  const [idData, setIdData] = useState();
   const { data: session } = useSession();
 
   useEffect(
@@ -39,14 +38,6 @@ const Posts = () => {
         }
       ),
     [db]
-  );
-
-  useEffect(
-    () =>
-      userProfiles.map((item) => {
-        setIdData(item.id);
-      }),
-    []
   );
 
   return (
